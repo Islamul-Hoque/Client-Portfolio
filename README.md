@@ -1,36 +1,73 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Personal Portfolio Website
 
-## Getting Started
+## navbar
+left side e Ishmam 
+right side e Home, About, Services, Contact
+mobile responsive e 3 dash line button
 
-First, run the development server:
+## hero section
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### left side
+name : Imamul Hoque Ishmam
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+name er nice short intro:
+"Storyteller behind the lens – Film Director, Editor & Photographer | Transforming creative concepts into high-quality cinematic reality."
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### right side
+[image](imamul_Hoque_Ishmam.jpeg)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+## "About me" section
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The Storyteller Behind the Lens: Bringing Visions to Life
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+​"A great story shouldn't just be told; it should be felt." — This core belief drives my passion every time I step behind the camera.
 
-## Deploy on Vercel
+​I am a Film Director, Video Editor, and Photographer. In simpler words, I am a visual storyteller. The world behind the lens is my canvas, where I blend reality with imagination to create impactful visual experiences.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+​My journey began with capturing the ordinary world through a camera frame. That curiosity quickly evolved into a deep-rooted passion for photography. For me, freezing a moment in time, playing with light and shadow, and capturing raw human emotions is nothing short of magic.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+​However, the urge to make those stories move and breathe led me into the world of film direction. As a director, my ultimate goal is to ensure that every shot resonates with the audience. From conceptualization and framing to guiding the performance, I thrive on the challenge of turning a script into a cinematic reality.
+
+​But the true rhythm of a film is born on the editing table. This is why video editing and post-production are core pillars of my expertise. I see editing as a craft where pacing, precise cuts, advanced color grading, and meticulous sound design come together to give footage its soul. Ensuring the perfect balance of audio-visual elements and setting the right cinematic mood is my signature style.
+
+​I believe that every project is a fresh opportunity to innovate, experiment, and push creative boundaries. Whether you want to transform a concept into a cinematic masterpiece, polish a video with high-end editing, or capture a defining moment through photography—I am here to bring that vision to life.
+
+​Let’s collaborate and create something unforgettable!
+
+
+## "Cinematography & Direction" section
+
+Bringing scripts to life with cinematic framing and purposeful lighting. I direct narratives and camera movements to build a powerful connection with the audience.
+
+## "Advanced Video Editing & Color Grading" section
+
+Crafting seamless cuts and advanced color grading to define the story's mood. I transform raw footage into high-impact, professional cinematic pieces.
+
+## "Visual Storytelling" section
+
+Capturing raw emotions and untold narratives through films and photography. I focus on unique angles and fine details that leave a lasting impression.
+
+## "Audio Design & Foley" section
+
+Designing immersive soundscapes and custom Foley effects to elevate the visuals. I ensure a balanced, realistic, and cinematic audio experience.
+
+
+## "Let's collaborate" section
+Let's collaborate
+gmail: ishmamihi777@gmail.com
+
+## footer
+Facebook: https://www.facebook.com/Imamul.Hoque.Ishmam.71
+Instagram user name: ishmam_777
+Twitter user name : ishmam_777
+
+copyright text
+
+
+### use technology for this portfolio
+ next.js , typescript , tailwind css,twMerge, framer motion,  react icons, GSAP, lucide-react,
+ lenis for Smooth Scroll, Three.js for background
+
+### 
