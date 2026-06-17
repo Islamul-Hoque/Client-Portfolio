@@ -9,6 +9,11 @@ export default function Contact() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  
+  // Custom validation states to track individual field errors
+  const [errors, setErrors] = useState({ name: '', email: '', message: '' });
+  // General error state to handle API route/network delivery failures
+  const [submitError, setSubmitError] = useState('');
 
   const emailAddress = 'ishmamihi777@gmail.com';
 
@@ -24,21 +29,108 @@ export default function Contact() {
 
   const [submittedName, setSubmittedName] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  /**
+   * Client-side validation runner.
+   * Ensures fields are filled and tests email format against a standard pattern.
+   */
+  const validateForm = () => {
+    const newErrors = { name: '', email: '', message: '' };
+    let isValid = true;
+
+    if (!formData.name.trim()) {
+      newErrors.name = 'Please enter your name';
+      isValid = false;
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = 'Please enter your email';
+      isValid = false;
+    } else {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(formData.email)) {
+        newErrors.email = 'Please enter a valid email address';
+        isValid = false;
+      }
+    }
+
+    if (!formData.message.trim()) {
+      newErrors.message = 'Please enter your message';
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
+
+  /**
+   * Helper that updates local form values.
+   * Proactively clears validation errors once the user has fixed their entry.
+   */
+  const handleInputChange = (field: 'name' | 'email' | 'message', value: string) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+    
+    // Clear validation error when field is corrected
+    if (errors[field]) {
+      setErrors((prev) => {
+        const nextErrors = { ...prev };
+        if (field === 'name' && value.trim()) nextErrors.name = '';
+        if (field === 'message' && value.trim()) nextErrors.message = '';
+        if (field === 'email') {
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (value.trim() && emailRegex.test(value)) nextErrors.email = '';
+        }
+        return nextErrors;
+      });
+    }
+  };
+
+  /**
+   * Custom submit handler. Runs validations, halts on error,
+   * and dispatches a JSON POST payload to our server API route.
+   */
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitError('');
+
+    // Stop execution if front-end validations are not passed
+    if (!validateForm()) return;
+
     setIsSubmitting(true);
     setSubmittedName(formData.name);
-    // Simulate API request
-    setTimeout(() => {
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to send message.');
+      }
+
+      // Finalize submission state
       setIsSubmitting(false);
       setSubmitSuccess(true);
       setFormData({ name: '', email: '', message: '' });
-    }, 1200);
+      setErrors({ name: '', email: '', message: '' });
+    } catch (err: unknown) {
+      console.error('Form submission exception:', err);
+      const errorMessage = err instanceof Error ? err.message : 'An unexpected error occurred. Please try again.';
+      setSubmitError(errorMessage);
+      setIsSubmitting(false);
+    }
   };
 
   const handleReset = () => {
     setSubmitSuccess(false);
     setSubmittedName('');
+    setSubmitError('');
+    setErrors({ name: '', email: '', message: '' });
   };
 
   return (
@@ -141,6 +233,7 @@ export default function Contact() {
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.4 }}
                 onSubmit={handleSubmit}
+                noValidate
                 className="space-y-6"
               >
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -151,26 +244,58 @@ export default function Contact() {
                     <input
                       type="text"
                       id="name"
-                      required
                       value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      onChange={(e) => handleInputChange('name', e.target.value)}
                       placeholder="Your Name"
-                      className="bg-zinc-900/40 border border-white/10 px-4 py-3 text-white placeholder-zinc-600 focus:outline-none focus:border-accent/40 focus:ring-1 focus:ring-accent/20 transition-all duration-300 text-sm"
+                      className={`bg-zinc-900/40 border px-4 py-3 text-white placeholder-zinc-600 focus:outline-none focus:ring-1 transition-all duration-300 text-sm ${
+                        errors.name 
+                          ? 'border-rose-500/50 focus:border-rose-500/80 focus:ring-rose-500/20' 
+                          : 'border-white/10 focus:border-accent/40 focus:ring-accent/20'
+                      }`}
                     />
+                    <AnimatePresence>
+                      {errors.name && (
+                        <motion.p
+                          initial={{ opacity: 0, height: 0, y: -5 }}
+                          animate={{ opacity: 1, height: 'auto', y: 0 }}
+                          exit={{ opacity: 0, height: 0, y: -5 }}
+                          transition={{ duration: 0.2 }}
+                          className="text-rose-400 text-xs font-light mt-1 pl-1"
+                        >
+                          {errors.name}
+                        </motion.p>
+                      )}
+                    </AnimatePresence>
                   </div>
                   <div className="flex flex-col space-y-2">
                     <label htmlFor="email" className="text-xs uppercase tracking-widest text-zinc-400 font-semibold">
                       Email Address
                     </label>
                     <input
-                      type="email"
+                      type="text"
                       id="email"
-                      required
                       value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      onChange={(e) => handleInputChange('email', e.target.value)}
                       placeholder="name@example.com"
-                      className="bg-zinc-900/40 border border-white/10 px-4 py-3 text-white placeholder-zinc-600 focus:outline-none focus:border-accent/40 focus:ring-1 focus:ring-accent/20 transition-all duration-300 text-sm"
+                      className={`bg-zinc-900/40 border px-4 py-3 text-white placeholder-zinc-600 focus:outline-none focus:ring-1 transition-all duration-300 text-sm ${
+                        errors.email 
+                          ? 'border-rose-500/50 focus:border-rose-500/80 focus:ring-rose-500/20' 
+                          : 'border-white/10 focus:border-accent/40 focus:ring-accent/20'
+                      }`}
                     />
+                    <AnimatePresence>
+                      {errors.email && (
+                        <motion.p
+                          initial={{ opacity: 0, height: 0, y: -5 }}
+                          animate={{ opacity: 1, height: 'auto', y: 0 }}
+                          exit={{ opacity: 0, height: 0, y: -5 }}
+                          transition={{ duration: 0.2 }}
+                          className="text-rose-400 text-xs font-light mt-1 pl-1"
+                        >
+                          {errors.email}
+                        </motion.p>
+                      )}
+                    </AnimatePresence>
                   </div>
                 </div>
                 
@@ -180,14 +305,43 @@ export default function Contact() {
                   </label>
                   <textarea
                     id="message"
-                    required
                     rows={5}
                     value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    onChange={(e) => handleInputChange('message', e.target.value)}
                     placeholder="Describe your vision, project goals, or ideas..."
-                    className="bg-zinc-900/40 border border-white/10 px-4 py-3 text-white placeholder-zinc-600 focus:outline-none focus:border-accent/40 focus:ring-1 focus:ring-accent/20 transition-all duration-300 text-sm resize-none"
+                    className={`bg-zinc-900/40 border px-4 py-3 text-white placeholder-zinc-600 focus:outline-none focus:ring-1 transition-all duration-300 text-sm resize-none ${
+                      errors.message 
+                        ? 'border-rose-500/50 focus:border-rose-500/80 focus:ring-rose-500/20' 
+                        : 'border-white/10 focus:border-accent/40 focus:ring-accent/20'
+                    }`}
                   />
+                  <AnimatePresence>
+                    {errors.message && (
+                      <motion.p
+                        initial={{ opacity: 0, height: 0, y: -5 }}
+                        animate={{ opacity: 1, height: 'auto', y: 0 }}
+                        exit={{ opacity: 0, height: 0, y: -5 }}
+                        transition={{ duration: 0.2 }}
+                        className="text-rose-400 text-xs font-light mt-1 pl-1"
+                      >
+                        {errors.message}
+                      </motion.p>
+                    )}
+                  </AnimatePresence>
                 </div>
+
+                <AnimatePresence>
+                  {submitError && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="p-3 bg-rose-950/35 border border-rose-900/40 rounded text-rose-300 text-xs text-center"
+                    >
+                      {submitError}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
 
                 <button
                   type="submit"
