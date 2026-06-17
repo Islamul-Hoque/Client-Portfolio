@@ -45,7 +45,7 @@ export default function Navbar() {
             href="#home" 
             className="font-serif text-2xl font-bold tracking-wider text-white hover:text-accent transition-colors duration-300"
           >
-            🎬Ishmam
+            ISHMAM
           </a>
 
           {/* Right Side: Desktop Nav Links */}

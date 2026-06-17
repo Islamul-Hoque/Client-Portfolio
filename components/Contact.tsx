@@ -269,14 +269,14 @@ export default function Contact() {
                   </div>
                   <div className="flex flex-col space-y-2">
                     <label htmlFor="email" className="text-xs uppercase tracking-widest text-zinc-400 font-semibold">
-                      Email Address
+                      Email
                     </label>
                     <input
                       type="text"
                       id="email"
                       value={formData.email}
                       onChange={(e) => handleInputChange('email', e.target.value)}
-                      placeholder="name@example.com"
+                      placeholder="Your Email Address"
                       className={`bg-zinc-900/40 border px-4 py-3 text-white placeholder-zinc-600 focus:outline-none focus:ring-1 transition-all duration-300 text-sm ${
                         errors.email 
                           ? 'border-rose-500/50 focus:border-rose-500/80 focus:ring-rose-500/20' 

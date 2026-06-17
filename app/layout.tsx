@@ -4,11 +4,11 @@ import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import ThreeBackground from "@/components/ThreeBackground";
 
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
-  subsets: ["latin"],
-  display: "swap",
-});
+// const playfair = Playfair_Display({
+//   variable: "--font-playfair",
+//   subsets: ["latin"],
+//   display: "swap",
+// });
 
 const outfit = Outfit({
   variable: "--font-inter",
@@ -20,13 +20,6 @@ const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-
 
 export const metadata: Metadata = {
   title: "Imamul Hoque Ishmam | Visual Storyteller & Film Director",
@@ -44,10 +37,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  // ${playfair.variable}
   return (
     <html
       lang="en"
-      className={`${playfair.variable} ${geistSans.variable} ${geistMono.variable} ${outfit.variable} h-full antialiased`}
+      className={` ${geistSans.variable} ${outfit.variable} h-full antialiased`}
       style={{ colorScheme: "dark" }}
     >
       <body className="min-h-full flex flex-col bg-[#08080a] text-[#f4f4f6]">
